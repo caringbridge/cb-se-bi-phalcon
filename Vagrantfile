@@ -1,6 +1,6 @@
 Vagrant.configure('2') do |config|
   config.vm.provider "virtualbox" do |v|
-    v.memory = 1024
+    v.memory = 2048
   end
 
   # Prepare berks
@@ -41,12 +41,13 @@ Vagrant.configure('2') do |config|
 
     # Chef run to create things
     cs.vm.provision :chef_client do |chef|
-      chef.json = {
-        'mongodb' => {
-          'configserver_url' => '33.33.33.50'
-        }
-      }
-
+      # chef.json = {
+      #   'mongodb' => {
+      #     'configserver_url' => '33.33.33.50'
+      #   }
+      # }
+      chef.add_recipe 'se-yum::default'
+      chef.add_recipe 'role-zendserver'
       chef.add_recipe 'role-BI-apache-phalcon::default'
       chef.add_recipe 'role-mysql::default'
     end
